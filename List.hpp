@@ -79,7 +79,7 @@ public:
 
     // Add a default constructor here. The default constructor must set both
     // pointer members to null pointers.
-
+    Iterator() : list_ptr(nullptr), node_ptr(nullptr){}
 
 
     // Add custom implementations of the destructor, copy constructor, and
@@ -87,6 +87,7 @@ public:
     // will work correctly without defining these, you should omit them. A user
     // of the class must be able to copy, assign, and destroy Iterators.
 
+    
 
 
     // Your iterator should implement the following public operators:
