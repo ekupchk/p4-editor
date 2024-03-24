@@ -41,24 +41,77 @@ public:
   }
 
   //EFFECTS:  inserts datum into the front of the list
-  void push_front(const T &datum);
+  void push_front(const T &datum){
+    //Creating the new front node
+    //Works for all cases
+    Node *new_front_node = new Node();
+    new_front_node->datum = datum;
+    new_front_node->prev = nullptr;
+    new_front_node->next = first;
+    
+    //If the first node is nullptr, then is an empty list
+    //Make both the first and last nodes this new node
+    if(first == nullptr){
+      last = new_front_node
+    }else{ //At least one element in the list
+      first->prev = new_front_node;
+    }
+    first = new_front_node;
+  };
 
   //EFFECTS:  inserts datum into the back of the list
-  void push_back(const T &datum);
+  void push_back(const T &datum){
+    Node *new_end_node = new Node();
+    new_end_node->datum = datum;
+    new_end_node->next = nullptr;
+    new_end_node->prev = last;
+
+    //If the first node is nullptr, then is an empty list
+    //Make both the first and last nodes this new node
+    if(first == nullptr){
+      first = new_end_node;
+    }else{ //At least one element in the list
+      last->next = new_end_node;
+    }
+    last = new_end_node;
+  };
 
   //REQUIRES: list is not empty
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the front of the list
-  void pop_front();
+  void pop_front(){
+    Node *replaced_front = first;
+    if(first == last){
+      last = nullptr;
+    }
+    first = first->next;
+    delete replaced_front;
+  };
 
   //REQUIRES: list is not empty
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the back of the list
-  void pop_back();
+  void pop_back(){
+    Node *replaced_end = last;
+    if(first == last){
+      first = nullptr;
+    }
+    last = last->prev;
+    delete replaced_end;
+  };
 
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes all items from the list
-  void clear();
+  void clear(){
+    while(first != last){
+      pop_back();
+    }
+    if(first != nullptr){
+      delete first;
+      first = nullptr;
+      last = nullptr;
+    }
+  };
 
   // You should add in a default constructor, destructor, copy constructor,
   // and overloaded assignment operator, if appropriate. If these operations
