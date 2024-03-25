@@ -205,6 +205,21 @@ public:
       return copy;
     }
 
+    Iterator operator++(){
+      assert(list_ptr);
+      if (node_ptr) {
+        node_ptr = node_ptr->next;
+      } else { // decrementing an end Iterator moves it to the last element
+        node_ptr = list_ptr->first;
+      }
+      return *this;
+    }
+
+    Iterator operator++(int /*dummy*/) { // postfix -- (e.g. it--)
+      Iterator copy = *this;
+      operator++();
+      return copy;
+    }
     // REQUIRES: Iterator is dereferenceable
     // EFFECTS: returns the underlying element by pointer
     // NOTE: T must be a class type to use the syntax it->. If T has a
@@ -213,6 +228,8 @@ public:
     T* operator->() const {
       return &operator*();
     }
+
+
 
   private:
     const List *list_ptr; //pointer to the List associated with this Iterator
