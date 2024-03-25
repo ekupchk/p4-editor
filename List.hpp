@@ -156,9 +156,18 @@ public:
     // overloaded assignment operator, if appropriate. If these operations
     // will work correctly without defining these, you should omit them. A user
     // of the class must be able to copy, assign, and destroy Iterators.
+    
+    //destructor (i dont think much is needed besides a destructor line so it can destruct when done)
+    ~Iterator(){}
+    
+    //copy constructor?
+    Iterator(Iterator &copy){
+      list_ptr = copy.list_ptr;
+      node_ptr = copy.node_ptr;
+      first = copy.first;
+    }
 
-    
-    
+
     /*
     WE NEED TO MAKE THE CUSTOM STUFF HERE!!!!!!!!!
     
@@ -280,9 +289,12 @@ public:
     bool initialized_via_default = false;
 
     // add any friend declarations here
+    friend class List;
+    //ALSO A PLACE WE NEED TO MAKE THE PRIVATE
 
+    //I think we need this private iterator constructor in order to specify node without list - Elijah
+    Iterator(Node *np) : node_ptr(np){}
 
-    //ALSO A PLACE WE NEED TO MAKE THE PRIVATE 
     // construct an Iterator at a specific position in the given List
     Iterator(const List *lp, Node *np){
       // int counter = 0;
@@ -298,10 +310,14 @@ public:
   ////////////////////////////////////////
 
   // return an Iterator pointing to the first element
-  Iterator begin() const;
+  Iterator begin() const{
+    return Iterator(first);
+  }
 
   // return an Iterator pointing to "past the end"
-  Iterator end() const;
+  Iterator end() const{
+    return Iterator(nullptr);
+  }
 
   //REQUIRES: i is a valid, dereferenceable iterator associated with this list
   //MODIFIES: may invalidate other list iterators
