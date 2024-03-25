@@ -158,6 +158,19 @@ public:
     // of the class must be able to copy, assign, and destroy Iterators.
 
     
+    
+    /*
+    WE NEED TO MAKE THE CUSTOM STUFF HERE!!!!!!!!!
+    
+    
+    Placing this sample text here so you can see it.
+    
+    
+    
+    
+    */
+
+
 
 
     // Your iterator should implement the following public operators:
@@ -269,6 +282,7 @@ public:
     // add any friend declarations here
 
 
+    //ALSO A PLACE WE NEED TO MAKE THE PRIVATE 
     // construct an Iterator at a specific position in the given List
     Iterator(const List *lp, Node *np){
       // int counter = 0;
