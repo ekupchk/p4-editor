@@ -52,11 +52,12 @@ public:
     //If the first node is nullptr, then is an empty list
     //Make both the first and last nodes this new node
     if(first == nullptr){
-      last = new_front_node
+      last = new_front_node;
     }else{ //At least one element in the list
       first->prev = new_front_node;
     }
     first = new_front_node;
+    ListSize++;
   };
 
   //EFFECTS:  inserts datum into the back of the list
@@ -74,6 +75,7 @@ public:
       last->next = new_end_node;
     }
     last = new_end_node;
+    ListSize++;
   };
 
   //REQUIRES: list is not empty
@@ -83,6 +85,9 @@ public:
     Node *replaced_front = first;
     if(first == last){
       last = nullptr;
+      ListSize = 0;
+    }else{
+      ListSize--;
     }
     first = first->next;
     delete replaced_front;
@@ -95,6 +100,9 @@ public:
     Node *replaced_end = last;
     if(first == last){
       first = nullptr;
+      ListSize = 0;
+    }else{
+      ListSize--;
     }
     last = last->prev;
     delete replaced_end;
@@ -120,7 +128,7 @@ public:
 
 private:
   //a private type
-  int ListSize;
+  int ListSize = 0;
   struct Node {
     Node *next;
     Node *prev;
@@ -141,7 +149,7 @@ public:
 
     // Add a default constructor here. The default constructor must set both
     // pointer members to null pointers.
-    Iterator() : list_ptr(nullptr), node_ptr(nullptr){}
+    Iterator() : list_ptr(nullptr), node_ptr(nullptr), initialized_via_default(true){}
 
 
     // Add custom implementations of the destructor, copy constructor, and
@@ -229,19 +237,48 @@ public:
       return &operator*();
     }
 
+    bool operator==(Iterator rhs){
+      if((initialized_via_default == true) || (rhs.initialized_via_default == true)){
+        return (initialized_via_default == rhs.initialized_via_default);
+      }
+
+      if(list_ptr == rhs.list_ptr){
+        return (node_ptr == rhs.node_ptr);
+      }
+
+      //expects undefined behavior if you compare
+      //different lists, so show this way
+      return false;
+    }
+
+    bool operator!=(Iterator rhs){
+      return !(operator==(rhs));
+    }
+
+    T operator*(){
+      return node_ptr->datum;
+    }
 
 
   private:
     const List *list_ptr; //pointer to the List associated with this Iterator
     Node *node_ptr; //current Iterator position is a List node
     // add any additional necessary member variables here
-
+    bool initialized_via_default = false;
 
     // add any friend declarations here
 
 
     // construct an Iterator at a specific position in the given List
-    Iterator(const List *lp, Node *np);
+    Iterator(const List *lp, Node *np){
+      // int counter = 0;
+      // Node* current_node = lp->begin;
+      // while((counter < ListSize) && (current_node != np)){
+      //   counter++;
+      //   current_node = current_node->next;
+      // }
+      
+    }
 
   };//List::Iterator
   ////////////////////////////////////////
