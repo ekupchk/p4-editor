@@ -16,6 +16,7 @@ TEST(test_traversal) {
     }
     int j = 0;
     for (List<int>::Iterator it = list.begin(); it != list.end(); ++it, ++j) {
+        cout << "At item #" << j << ", get " << *it << endl;
         ASSERT_EQUAL(*it, j);
     }
     ASSERT_EQUAL(j, list.size());

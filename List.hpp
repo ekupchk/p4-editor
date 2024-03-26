@@ -169,7 +169,11 @@ public:
       initialized_via_default = false;
     }
 
-
+    //overloaded assignment
+    Iterator & operator=(const Iterator &rhs){
+      list_ptr = rhs.list_ptr;
+      node_ptr = rhs.node_ptr;
+    }
 
 
 
@@ -294,7 +298,7 @@ public:
       //   counter++;
       //   current_node = current_node->next;
       // }
-      
+      std::cout << "unfinished function Iterator(const List *lp, Node *np) activated" << std::endl;
     }
 
   };//List::Iterator
@@ -315,12 +319,16 @@ public:
   //EFFECTS: Removes a single element from the list container.
   //         Returns An iterator pointing to the element that followed the
   //         element erased by the function call
-  Iterator erase(Iterator i);
+  Iterator erase(Iterator i){
+    std::cout << "unfinished function Iterator erase(Iterator i) activated" << std::endl;
+  };
 
   //REQUIRES: i is a valid iterator associated with this list
   //EFFECTS: Inserts datum before the element at the specified position.
   //         Returns an iterator to the the newly inserted element.
-  Iterator insert(Iterator i, const T &datum);
+  Iterator insert(Iterator i, const T &datum){
+    std::cout << "unfinished function Iterator insert(Iterator i, const T &datum){ activated" << std::endl;
+  };
 
 };//List
 
