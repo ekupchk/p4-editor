@@ -126,6 +126,8 @@ public:
   // will work correctly without defining these, you should omit them. A user
   // of the class must be able to create, copy, assign, and destroy Lists.
 
+  List<T>() : ListSize(0), first(nullptr), last(nullptr){};
+
 private:
   //a private type
   int ListSize = 0;
@@ -146,7 +148,7 @@ public:
   ////////////////////////////////////////
   class Iterator {
     //OVERVIEW: Iterator interface to List
-
+  public:
     // Add a default constructor here. The default constructor must set both
     // pointer members to null pointers.
     Iterator() : list_ptr(nullptr), node_ptr(nullptr), initialized_via_default(true){}
@@ -164,20 +166,9 @@ public:
     Iterator(Iterator &copy){
       list_ptr = copy.list_ptr;
       node_ptr = copy.node_ptr;
-      first = copy.first;
+      initialized_via_default = false;
     }
 
-
-    /*
-    WE NEED TO MAKE THE CUSTOM STUFF HERE!!!!!!!!!
-    
-    
-    Placing this sample text here so you can see it.
-    
-    
-    
-    
-    */
 
 
 
