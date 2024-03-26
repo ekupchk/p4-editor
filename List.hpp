@@ -256,20 +256,25 @@ public:
 
     bool operator==(Iterator rhs){
       if((initialized_via_default == true) || (rhs.initialized_via_default == true)){
+        std::cout << "operator == returns" << (initialized_via_default == rhs.initialized_via_default) << std::endl;
         return (initialized_via_default == rhs.initialized_via_default);
       }
 
       if(list_ptr == rhs.list_ptr){
+        std::cout << "operator == returns" << (node_ptr == rhs.node_ptr) << std::endl;
         return (node_ptr == rhs.node_ptr);
       }
 
       //expects undefined behavior if you compare
       //different lists, so show this way
+      std::cout << "operator == returns false by default" << std::endl;
       return false;
     }
 
     bool operator!=(Iterator rhs){
-      return !(operator==(rhs));
+      bool return_value = !(operator==(rhs));
+      std::cout << "operator != returns " << return_value << std::endl;
+      return return_value;
     }
 
     T operator*(){
