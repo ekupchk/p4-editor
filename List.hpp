@@ -325,12 +325,20 @@ public:
   //         Returns An iterator pointing to the element that followed the
   //         element erased by the function call
   Iterator erase(Iterator i){
+    Node *previous = i.node_ptr->prev;
+    
+    
+    
+    
+    
+    
+    
     //creates a node that is the same as the node we want to remove (where the i iterator is at)
     Node *removing_node = i.node_ptr;
     //creates a node that will help start from the beginning
     Node *traversal_node = &first;
     //uses a for loop to traverse the List until the traversale_node->next is the same address as the node we want to remove
-    for(int i = 0; i < ListSize; i++){
+    for(int i = 0; i < ListSize; i++){      
       //checks if the traversal_node->next matches the removing node address
       if(traversal_node->next == &removing_node){
         //checks if there is a node after the node we are removing (if not we dont have to do as much, if there is you have to change the ->next of the previous node and the ->prev of the next node)
