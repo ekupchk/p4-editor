@@ -15,11 +15,18 @@ template <typename T>
 class List {
 public:
 
+  /*STATUS: 
+    Should be fine, untested.
+  */
   //EFFECTS:  returns true if the list is empty
   bool empty() const{
     return first == nullptr;
   }
 
+  /*STATUS: 
+    Should be fine, untested.
+    If errors occur, it's from indexing issues.
+  */
   //EFFECTS: returns the number of elements in this List
   //HINT:    Traversing a list is really slow. Instead, keep track of the size
   //         with a private member variable. That's how std::list does it.
@@ -27,18 +34,29 @@ public:
     return ListSize;
   }
 
+  /*STATUS: 
+    Should be fine, untested.
+    If errors occur, its from indexing issues.
+  */
   //REQUIRES: list is not empty
   //EFFECTS: Returns the first element in the list by reference
   T & front(){
     return first->datum;
   }
 
+  /*STATUS: 
+    Should be fine, untested.
+    If errors occur, its from indexing issues.
+  */
   //REQUIRES: list is not empty
   //EFFECTS: Returns the last element in the list by reference
   T & back(){
     return last->datum;
   }
 
+  /*STATUS: 
+    
+  */
   //EFFECTS:  inserts datum into the front of the list
   void push_front(const T &datum){
     //Creating the new front node
@@ -126,6 +144,17 @@ public:
   // of the class must be able to create, copy, assign, and destroy Lists.
 
   List<T>() : ListSize(0), first(nullptr), last(nullptr){};
+
+  ~List<T>(){
+    Node* current_element;
+    for (List<T>::Iterator item_iterator = begin(); item_iterator != end(); ++item_iterator) {
+        cout << *item_iterator << endl;
+        current_element = item_iterator->node_ptr;
+        delete current_element;
+    }
+    delete this;
+  };
+
 
 private:
   //a private type
@@ -325,28 +354,12 @@ public:
   //         Returns An iterator pointing to the element that followed the
   //         element erased by the function call
   Iterator erase(Iterator i){
-<<<<<<< Updated upstream
     for(List<int>::Iterator *traverse = list.begin(); traverse != list.end(); traverse++){
       if(traverse.node_ptr == i.node_ptr){
         if(traverse->node_ptr->next == nullptr){
           traverse--;
           traverse->node_ptr->next = nullptr;
           i = traverse;
-=======
-    //creates a node that is the same as the node we want to remove (where the i iterator is at)
-    Node *removing_node = i.node_ptr;
-    //creates a node that will help start from the beginning
-    Node *traversal_node = &first;
-    //uses a for loop to traverse the List until the traversale_node->next is the same address as the node we want to remove
-    for(int i = 0; i < ListSize; i++){
-      //checks if the traversal_node->next matches the removing node address
-      if(traversal_node->next == &removing_node){
-        //checks if there is a node after the node we are removing (if not we dont have to do as much, if there is you have to change the ->next of the previous node and the ->prev of the next node)
-        if((i.node_ptr)->next  == nullptr){
-          //next node is a nullptr so we just change the previous node's next address
-          i.node_ptr = traversal_node;
-          i.node_ptr->next = nullptr;
->>>>>>> Stashed changes
         }
         else{
           traverse--;
