@@ -325,48 +325,24 @@ public:
   //         Returns An iterator pointing to the element that followed the
   //         element erased by the function call
   Iterator erase(Iterator i){
-    Node *previous = i.node_ptr->prev;
-    
-    
-    
-    
-    
-    
-    
-    //creates a node that is the same as the node we want to remove (where the i iterator is at)
-    Node *removing_node = i.node_ptr;
-    //creates a node that will help start from the beginning
-    Node *traversal_node = &first;
-    //uses a for loop to traverse the List until the traversale_node->next is the same address as the node we want to remove
-    for(int i = 0; i < ListSize; i++){      
-      //checks if the traversal_node->next matches the removing node address
-      if(traversal_node->next == &removing_node){
-        //checks if there is a node after the node we are removing (if not we dont have to do as much, if there is you have to change the ->next of the previous node and the ->prev of the next node)
-        if(i.node_ptr->next  == nullptr){
-          //next node is a nullptr so we just change the previous node's next address
-          i.node_ptr = traversal_node;
-          i.node_ptr->next = nullptr;
+    for(List<int>::Iterator *traverse = list.begin(); traverse != list.end(); traverse++){
+      if(traverse.node_ptr == i.node_ptr){
+        if(traverse->node_ptr->next == nullptr){
+          traverse--;
+          traverse->node_ptr->next = nullptr;
+          i = traverse;
         }
         else{
-          //set the iterator to the traversal node
-          i.node_ptr = traversal_node;
-          //change the iterator node's next address so that it skips over that node we are removing
-          i.node_ptr->next = removing_node->next;
-          //creates a node that holds the node after the node we are removing 
-          Node NextNode = i.node_ptr->next;
-          //sets the iterator to that Nextnode
-          i.node_ptr = NextNode;
-          //changes that iterator node after the removed node to have its ->prev address go back to the traversal node address which we know is the node before the node we want to remove
-          i.node_ptr->prev = &traversal_node;
+          traverse--;
+          traverse->node_ptr->next = i.node_ptr->next;
+          traverse++;
+          traverse->node_ptr->prev =i.node_ptr->prev;
+          i = traverse;
         }
+        break;
       }
-      //if the traversal node-> next doesnt match the node before the node we want to remove, then the traversal node becomes the node after it
-      else{
-        traversal_node = traversal_node->next;
-      }
+      return i;
     }
-    std::cout << "unfinished function Iterator erase(Iterator i) activated" << std::endl;
-  };
 
   //REQUIRES: i is a valid iterator associated with this list
   //EFFECTS: Inserts datum before the element at the specified position.
@@ -374,7 +350,7 @@ public:
   Iterator insert(Iterator i, const T &datum){
     std::cout << "unfinished function Iterator insert(Iterator i, const T &datum){ activated" << std::endl;
   };
-
+  }
 };//List
 
 
