@@ -70,5 +70,15 @@ TEST(testing_popback){
     ASSERT_EQUAL(emptyList.front(),20);
 }
 
+TEST(default_iterator_constructor){
+    List<int> emptyList;
+    List<int>::Iterator empty;
+    
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    emptyList.push_back(3);
+    emptyList.push_back(4);
+
+}
 
 TEST_MAIN()
