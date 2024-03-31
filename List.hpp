@@ -325,15 +325,15 @@ public:
     Iterator(Node *np) : node_ptr(np){}
 
     // construct an Iterator at a specific position in the given List
-    Iterator(const List *lp, Node *np){
-      // int counter = 0;
-      // Node* current_node = lp->begin;
-      // while((counter < ListSize) && (current_node != np)){
-      //   counter++;
-      //   current_node = current_node->next;
-      // }
-      std::cout << "unfinished function Iterator(const List *lp, Node *np) activated" << std::endl;
-    }
+    Iterator(const List *lp, Node *np): node_ptr(np), list_ptr(lp){}
+      // // int counter = 0;
+      // // Node* current_node = lp->begin;
+      // // while((counter < ListSize) && (current_node != np)){
+      // //   counter++;
+      // //   current_node = current_node->next;
+      // // }
+      // std::cout << "unfinished function Iterator(const List *lp, Node *np) activated" << std::endl;
+    // }
 
   };//List::Iterator
   ////////////////////////////////////////
@@ -377,7 +377,11 @@ public:
   //EFFECTS: Inserts datum before the element at the specified position.
   //         Returns an iterator to the the newly inserted element.
   Iterator insert(Iterator i, const T &datum){
-    std::cout << "unfinished function Iterator insert(Iterator i, const T &datum){ activated" << std::endl;
+    // std::cout << "unfinished function Iterator insert(Iterator i, const T &datum){ activated" << std::endl;
+    Node *new_data = *Node(i);
+    Iterator new_iterator;
+    return new_iterator;
+    
   };
   }
 };//List
