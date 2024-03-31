@@ -15,11 +15,18 @@ template <typename T>
 class List {
 public:
 
+  /*STATUS: 
+    Should be fine, untested.
+  */
   //EFFECTS:  returns true if the list is empty
   bool empty() const{
     return first == nullptr;
   }
 
+  /*STATUS: 
+    Should be fine, untested.
+    If errors occur, it's from indexing issues.
+  */
   //EFFECTS: returns the number of elements in this List
   //HINT:    Traversing a list is really slow. Instead, keep track of the size
   //         with a private member variable. That's how std::list does it.
@@ -27,18 +34,29 @@ public:
     return ListSize;
   }
 
+  /*STATUS: 
+    Should be fine, untested.
+    If errors occur, its from indexing issues.
+  */
   //REQUIRES: list is not empty
   //EFFECTS: Returns the first element in the list by reference
   T & front(){
     return first->datum;
   }
 
+  /*STATUS: 
+    Should be fine, untested.
+    If errors occur, its from indexing issues.
+  */
   //REQUIRES: list is not empty
   //EFFECTS: Returns the last element in the list by reference
   T & back(){
     return last->datum;
   }
 
+  /*STATUS: 
+    
+  */
   //EFFECTS:  inserts datum into the front of the list
   void push_front(const T &datum){
     //Creating the new front node
@@ -126,6 +144,17 @@ public:
   // of the class must be able to create, copy, assign, and destroy Lists.
 
   List<T>() : ListSize(0), first(nullptr), last(nullptr){};
+
+  ~List<T>(){
+    Node* current_element;
+    for (List<T>::Iterator item_iterator = begin(); item_iterator != end(); ++item_iterator) {
+        cout << *item_iterator << endl;
+        current_element = item_iterator->node_ptr;
+        delete current_element;
+    }
+    delete this;
+  };
+
 
 private:
   //a private type
