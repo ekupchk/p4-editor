@@ -280,7 +280,7 @@ public:
     T operator*(){
       return node_ptr->datum;
     }
-
+//hjgdkhadjdui ididhg aidhfgididgg ahdighdg 
 
   private:
     const List *list_ptr; //pointer to the List associated with this Iterator
@@ -348,6 +348,7 @@ public:
   //EFFECTS: Inserts datum before the element at the specified position.
   //         Returns an iterator to the the newly inserted element.
   Iterator insert(Iterator i, const T &datum){
+    
     std::cout << "unfinished function Iterator insert(Iterator i, const T &datum){ activated" << std::endl;
   };
   }
