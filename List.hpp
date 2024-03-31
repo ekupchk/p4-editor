@@ -10,6 +10,7 @@
 #include <iterator> //std::bidirectional_iterator_tag
 #include <cassert>  //assert
 
+using namespace std;
 
 template <typename T>
 class List {
@@ -149,7 +150,7 @@ public:
     Node* current_element;
     for (List<T>::Iterator item_iterator = begin(); item_iterator != end(); ++item_iterator) {
         cout << *item_iterator << endl;
-        current_element = item_iterator->node_ptr;
+        current_element = item_iterator.node_ptr;
         delete current_element;
     }
     delete this;
@@ -240,14 +241,15 @@ public:
     // EFFECTS:  moves this Iterator to point to the previous element
     //           and returns a reference to this Iterator
     Iterator& operator--() { // prefix -- (e.g. --it)
-      assert(list_ptr);
-      if (node_ptr) {
-        node_ptr = node_ptr->prev;
-      } else { // decrementing an end Iterator moves it to the last element
-        node_ptr = list_ptr->last;
-      }
-      return *this;
-    }
+  assert(list_ptr);
+  assert(*this != list_ptr->begin());
+  if (node_ptr) {
+    node_ptr = node_ptr->prev;
+  } else { // decrementing an end Iterator moves it to the last element
+    node_ptr = list_ptr->last;
+  }
+  return *this;
+}
 
     // This operator will be used to test your code. Do not modify it.
     // REQUIRES: Iterator is either dereferenceable or an end Iterator
@@ -280,17 +282,17 @@ public:
     //       member variable f, then it->f accesses f on the
     //       underlying T element.
     T* operator->() const {
-      return &operator*();
+      return &(operator*());
     }
 
     bool operator==(Iterator rhs){
       if((initialized_via_default == true) || (rhs.initialized_via_default == true)){
-        std::cout << "operator == returns" << (initialized_via_default == rhs.initialized_via_default) << std::endl;
+        std::cout << "operator == returns " << (initialized_via_default == rhs.initialized_via_default) << std::endl;
         return (initialized_via_default == rhs.initialized_via_default);
       }
 
       if(list_ptr == rhs.list_ptr){
-        std::cout << "operator == returns" << (node_ptr == rhs.node_ptr) << std::endl;
+        std::cout << "operator == returns " << (node_ptr == rhs.node_ptr) << std::endl;
         return (node_ptr == rhs.node_ptr);
       }
 
@@ -354,8 +356,8 @@ public:
   //         Returns An iterator pointing to the element that followed the
   //         element erased by the function call
   Iterator erase(Iterator i){
-    for(List<int>::Iterator *traverse = list.begin(); traverse != list.end(); traverse++){
-      if(traverse.node_ptr == i.node_ptr){
+    for(List<int>::Iterator *traverse = i.list_ptr.begin(); traverse != i.list_ptr.end(); traverse++){
+      if(traverse->node_ptr == i->node_ptr){
         if(traverse->node_ptr->next == nullptr){
           traverse--;
           traverse->node_ptr->next = nullptr;
@@ -363,16 +365,16 @@ public:
         }
         else{
           traverse--;
-          traverse->node_ptr->next = i.node_ptr->next;
+          traverse->node_ptr->next = i->node_ptr->next;
           traverse++;
-          traverse->node_ptr->prev =i.node_ptr->prev;
+          traverse->node_ptr->prev =i->node_ptr->prev;
           i = traverse;
         }
         break;
       }
       return i;
     }
-
+  }
   //REQUIRES: i is a valid iterator associated with this list
   //EFFECTS: Inserts datum before the element at the specified position.
   //         Returns an iterator to the the newly inserted element.
@@ -382,7 +384,6 @@ public:
     Iterator new_iterator;
     return new_iterator;
     
-  };
   }
 };//List
 
