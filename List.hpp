@@ -286,6 +286,14 @@ public:
     }
 
     bool operator==(Iterator rhs){
+      if(node_ptr == rhs.node_ptr){
+        cout << "true" << endl;
+        return true;
+      }
+      cout << "false" << endl;
+      return false;
+      
+      /*
       if((initialized_via_default == true) || (rhs.initialized_via_default == true)){
         std::cout << "operator == returns " << (initialized_via_default == rhs.initialized_via_default) << std::endl;
         return (initialized_via_default == rhs.initialized_via_default);
@@ -300,6 +308,7 @@ public:
       //different lists, so show this way
       std::cout << "operator == returns false by default" << std::endl;
       return false;
+      */
     }
 
     bool operator!=(Iterator rhs){
@@ -307,6 +316,7 @@ public:
       std::cout << "operator != returns " << return_value << std::endl;
       return return_value;
     }
+    
 
     T operator*(){
       return node_ptr->datum;

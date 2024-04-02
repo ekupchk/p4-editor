@@ -165,8 +165,14 @@ TEST(test_down) {
     buffer.insert((char)('0'+i));
   }
   buffer.move_to_row_start();
+  cout << "BUFFER ROW: " << buffer.get_row() << endl;
+  cout << "BUFFER COLUMN: " << buffer.get_column() << endl;
   buffer.backward();
+  cout << "BUFFER ROW: " << buffer.get_row() << endl;
+  cout << "BUFFER COLUMN: " << buffer.get_column() << endl;
   buffer.down();
+  cout << "BUFFER ROW: " << buffer.get_row() << endl;
+  cout << "BUFFER COLUMN: " << buffer.get_column() << endl;
   ASSERT_EQUAL(buffer.get_row(), 2);
   ASSERT_EQUAL(buffer.get_column(), 5);
 }

@@ -6,10 +6,12 @@ using namespace std;
 
 TEST(test_list_default_ctor) {
     List<int> empty_list;
+    cout << "we checking fr fr " << endl;
     ASSERT_TRUE(empty_list.empty());
 }
 
 TEST(test_traversal) {
+    cout << "------------------------" << endl;
     List<int> list;
     for (int i = 0; i < 5; ++i) {
         list.push_back(i);
