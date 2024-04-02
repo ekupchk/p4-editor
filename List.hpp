@@ -146,6 +146,20 @@ public:
 
   List<T>() : ListSize(0), first(nullptr), last(nullptr){};
 
+  //copy constructor?
+  // List<T>(List<T> &copy){
+  //   ListSize = 0;
+  //   for (List<T>::Iterator item_iterator = copy.begin(); item_iterator != copy.end(); ++item_iterator) {
+
+  //   }
+  // }
+
+  // //overloaded assignment
+  // List<T> & operator=(const List<T> &rhs){
+  //   
+  //   return *this;
+  // }
+
   ~List<T>(){
     Node* current_element;
     for (List<T>::Iterator item_iterator = begin(); item_iterator != end(); ++item_iterator) {
