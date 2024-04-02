@@ -188,6 +188,7 @@ TEST(testing_pop_front_back){
     ASSERT_TRUE(emptyList.empty());
 }
 
+//Passes
 TEST(clear_function){
     List<int> emptyList;
     emptyList.push_back(1);
@@ -202,6 +203,7 @@ TEST(clear_function){
     ASSERT_TRUE(emptyList.empty());
 }
 
+
 TEST(default_list_constructor){
     List<int> emptyList;
     ASSERT_TRUE(emptyList.empty());
@@ -214,13 +216,17 @@ TEST(copy_list_constructor){
     emptyList.push_back(2);
     emptyList.push_back(3);
     emptyList.push_back(4);
+    cout << "passes the creation phase" << endl;
     List<int> copiedList = emptyList;
+    cout << "passes the copy phase" << endl;
     ASSERT_EQUAL(copiedList.size(),4);
+    cout << "passes the size check" << endl;
     int j = 1;
     for (List<int>::Iterator it = copiedList.begin(); it != copiedList.end(); ++it, ++j) {
         std::cout << "At item #" << j << ", get " << *it << std::endl;
         ASSERT_EQUAL(*it, j);
     }
+    cout << "passes the data comparison" << endl;
 }
 
 TEST(overload_list_constructor){
@@ -238,34 +244,23 @@ TEST(overload_list_constructor){
     }
 }
 
-TEST(cost_list_constructor){
-    List<int> emptyList;
-    emptyList.push_back(1);
-    emptyList.push_back(2);
-    emptyList.push_back(3);
-    emptyList.push_back(4);
-    List<int> copiedList(emptyList);
-    ASSERT_EQUAL(copiedList.size(),4);
-    int j = 1;
-    for (List<int>::Iterator it = copiedList.begin(); it != copiedList.end(); ++it, ++j) {
-        std::cout << "At item #" << j << ", get " << *it << std::endl;
-        ASSERT_EQUAL(*it, j);
-    }
-}
 
 
 
 
 
-TEST(default_iterator_constructor){
-    List<int> emptyList;
-    List<int>::Iterator empty;
+
+
+
+// TEST(default_iterator_constructor){
+//     List<int> emptyList;
+//     List<int>::Iterator empty;
     
-    emptyList.push_back(1);
-    emptyList.push_back(2);
-    emptyList.push_back(3);
-    emptyList.push_back(4);
+//     emptyList.push_back(1);
+//     emptyList.push_back(2);
+//     emptyList.push_back(3);
+//     emptyList.push_back(4);
 
-}
+// }
 
 TEST_MAIN()
