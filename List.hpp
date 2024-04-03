@@ -35,23 +35,16 @@ class List {
       }
     }
 
-    Node *first;   // points to first Node in list, or nullptr if list is empty
-    Node *last;    // points to last Node in list, or nullptr if list is empty
+    Node *first;
+    Node *last;
 
   public:
 
-    /*STATUS: 
-      Should be fine, untested.
-    */
     //EFFECTS:  returns true if the list is empty
     bool empty() const{
       return first == nullptr;
     }
 
-    /*STATUS: 
-      Should be fine, untested.
-      If errors occur, it's from indexing issues.
-    */
     //EFFECTS: returns the number of elements in this List
     //HINT:    Traversing a list is really slow. Instead, keep track of the size
     //         with a private member variable. That's how std::list does it.
@@ -59,62 +52,32 @@ class List {
       return ListSize;
     }
 
-    /*STATUS: 
-      Should be fine, untested.
-      If errors occur, its from indexing issues.
-    */
     //REQUIRES: list is not empty
     //EFFECTS: Returns the first element in the list by reference
     T & front(){
       return first->datum;
     }
 
-    /*STATUS: 
-      Should be fine, untested.
-      If errors occur, its from indexing issues.
-    */
     //REQUIRES: list is not empty
     //EFFECTS: Returns the last element in the list by reference
     T & back(){
       if(last != nullptr) { return last->datum; }
-      //if one elem array, the first element is last, but last pointer stores nullptr
       return first->datum;
     }
 
-    /*STATUS: 
-      
-    */
     //EFFECTS:  inserts datum into the front of the list
     void push_front(const T &datum){
-      //Creating the new front node
-      //Works for all cases
       Node *new_front_node = new Node();
       new_front_node->datum = datum;
       new_front_node->prev = nullptr;
       new_front_node->next = first;
-      
-      //If the first node is nullptr, then is an empty list
-      //Make both the first and last nodes this new node
-      // if(first == nullptr){
-      //   last = new_front_node;
-      // }else{ //At least one element in the list
-      //   first->prev = new_front_node;
-      // }
-      // first = new_front_node;
-      // ListSize++;
 
-      //checking if one elem or zero elem array
       if(first != nullptr){
-        //activates if at least one element
         first->prev = new_front_node;
         if(last == nullptr){
-          //Is one element array
-          //So last element is the new first element
           last = first;
         }
       }
-
-      //Finally make the new node the front node
       first = new_front_node;
       ListSize++;
     };
@@ -126,29 +89,16 @@ class List {
       new_end_node->next = nullptr;
       new_end_node->prev = last;
 
-      // //If the first node is nullptr, then is an empty list
-      // //Make both the first and last nodes this new node
-      // if(first == nullptr){
-      //   first = new_end_node;
-      // }else{ //At least one element in the list
-      //   last->next = new_end_node;
-      // }
-      // last = new_end_node;
-      // ListSize++;
-
-      //checking if at least one elem or zero elem array
       if(first != nullptr){
         if(last != nullptr){
           last->next = new_end_node;
           new_end_node->prev = last;
         }else{
-          //one elem array so modifying the first elem
           first->next = new_end_node;
           new_end_node->prev = first;
         }
         last = new_end_node;
       }else{
-        //zero elem array so just put node as first node
         first = new_end_node;
       }
 
@@ -160,17 +110,6 @@ class List {
     //EFFECTS:  removes the item at the front of the list
     void pop_front(){
       Node *replaced_front = first;
-      // if(first == last){
-      //   last = nullptr;
-      //   ListSize = 0;
-      // }else{
-      //   ListSize--;
-      // }
-      // first = first->next;
-      // if(first != nullptr) {first->prev = nullptr;}
-      // delete replaced_front;
-      
-      //Check if the list has one element, two elements or several elements
       if(last == nullptr){
         first = nullptr;
 
@@ -178,7 +117,6 @@ class List {
         first = replaced_front->next;
         first->prev = nullptr;
         if(replaced_front->next == last){
-          //two element array
           last = nullptr;
         }
       }
@@ -192,18 +130,6 @@ class List {
     //EFFECTS:  removes the item at the back of the list
     void pop_back(){
       Node *replaced_end;
-
-      // if(first == last){
-      //   first = nullptr;
-      //   ListSize = 0;
-      // }else{
-      //   ListSize--;
-      // }
-      // last = last->prev;
-      // if(last != nullptr){last->next = nullptr;}
-      // delete replaced_end;
-
-      //See if the array is one elem or multiple elems
       if(last == nullptr){
         replaced_end = first;
         first = nullptr;
@@ -274,8 +200,6 @@ class List {
     class Iterator {
         //OVERVIEW: Iterator interface to List
       public:
-        // Add a default constructor here. The default constructor must set both
-        // pointer members to null pointers.
         Iterator() : list_ptr(nullptr), node_ptr(nullptr){}
 
 
@@ -286,6 +210,7 @@ class List {
         
         //copy constructor?
         Iterator(const Iterator &copy){
+          list_ptr = copy.list_ptr;
           node_ptr = copy.node_ptr;
         }
 
@@ -329,11 +254,11 @@ class List {
         // EFFECTS:  moves this Iterator to point to the previous element
         //           and returns a reference to this Iterator
         Iterator& operator--() { // prefix -- (e.g. --it)
-          assert(list_ptr);
-          assert(*this != list_ptr->begin());
+          // assert(list_ptr);
+          // assert(*this != list_ptr->begin());
           if (node_ptr) {
             node_ptr = node_ptr->prev;
-          } else { // decrementing an end Iterator moves it to the last element
+          } else {
             node_ptr = list_ptr->last;
           }
           return *this;
@@ -344,25 +269,25 @@ class List {
         // EFFECTS:  moves this Iterator to point to the previous element
         //           and returns a copy of the original Iterator
         Iterator operator--(int /*dummy*/) { // postfix -- (e.g. it--)
-          Iterator copy = *this;
+          Iterator new_version = *this;
           operator--();
-          return copy;
+          return new_version;
         }
 
         Iterator operator++(){
-          assert(list_ptr);
+          // assert(list_ptr);
           if (node_ptr) {
             node_ptr = node_ptr->next;
-          } else { // decrementing an end Iterator moves it to the last element
+          } else {
             node_ptr = list_ptr->first;
           }
           return *this;
         }
 
         Iterator operator++(int /*dummy*/) { // postfix -- (e.g. it--)
-          Iterator copy = *this;
+          Iterator new_version = *this;
           node_ptr = node_ptr->next;
-          return copy;
+          return new_version;
         }
         // REQUIRES: Iterator is dereferenceable
         // EFFECTS: returns the underlying element by pointer
@@ -375,23 +300,6 @@ class List {
 
         bool operator==(const Iterator rhs) const{
           return (node_ptr == rhs.node_ptr);
-          
-          /*
-          if((initialized_via_default == true) || (rhs.initialized_via_default == true)){
-            std::cout << "operator == returns " << (initialized_via_default == rhs.initialized_via_default) << std::endl;
-            return (initialized_via_default == rhs.initialized_via_default);
-          }
-
-          if(list_ptr == rhs.list_ptr){
-            std::cout << "operator == returns " << (node_ptr == rhs.node_ptr) << std::endl;
-            return (node_ptr == rhs.node_ptr);
-          }
-
-          //expects undefined behavior if you compare
-          //different lists, so show this way
-          std::cout << "operator == returns false by default" << std::endl;
-          return false;
-          */
         }
 
         bool operator!=(const Iterator rhs) const{
@@ -404,32 +312,20 @@ class List {
         }
 
       private:
-        const List *list_ptr; //pointer to the List associated with this Iterator
-        Node *node_ptr; //current Iterator position is a List node
-        // add any additional necessary member variables here
+        const List *list_ptr;
+        Node *node_ptr;
 
-        // add any friend declarations here
         friend class List;
-        //ALSO A PLACE WE NEED TO MAKE THE PRIVATE
 
-        //I think we need this private iterator constructor in order to specify node without list - Elijah
         Iterator(Node *np) : node_ptr(np){}
 
         // construct an Iterator at a specific position in the given List
         Iterator(const List *lp, Node *np): list_ptr(lp), node_ptr(np){}
-          // // int counter = 0;
-          // // Node* current_node = lp->begin;
-          // // while((counter < ListSize) && (current_node != np)){
-          // //   counter++;
-          // //   current_node = current_node->next;
-          // // }
-          // std::cout << "unfinished function Iterator(const List *lp, Node *np) activated" << std::endl;
-        // }
+
         void copy_all(const Iterator &rhs){
           node_ptr = rhs.node_ptr;
         }
     };//List::Iterator
-    ////////////////////////////////////////
 
     // return an Iterator pointing to the first element
     Iterator begin() const{
@@ -447,7 +343,8 @@ class List {
     //         Returns An iterator pointing to the element that followed the
     //         element erased by the function call
     Iterator erase(Iterator i){
-      for(List<int>::Iterator *traverse = i.list_ptr.begin(); traverse != i.list_ptr.end(); traverse++){
+      List<int>::Iterator *traverse = i.list_ptr.begin();
+      for(; traverse != i.list_ptr.end(); traverse++){
         if(traverse->node_ptr == i->node_ptr){
           if(traverse->node_ptr->next == nullptr){
             traverse--;
@@ -470,7 +367,6 @@ class List {
     //EFFECTS: Inserts datum before the element at the specified position.
     //         Returns an iterator to the the newly inserted element.
     Iterator insert(Iterator i, const T &datum){
-      // std::cout << "unfinished function Iterator insert(Iterator i, const T &datum){ activated" << std::endl
       Iterator new_iterator;
       Node *new_data = new Node();
       if(i->node_ptr == first){
@@ -494,12 +390,6 @@ class List {
     }
 };//List
 
-
-  ////////////////////////////////////////////////////////////////////////////////
-  // Add your member function implementations below or in the class above
-  // (your choice). Do not change the public interface of List, although you
-  // may add the Big Three if needed.  Do add the public member functions for
-  // Iterator.
 
 
 #endif // Do not remove this. Write all your code above this line.

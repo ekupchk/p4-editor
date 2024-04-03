@@ -307,35 +307,64 @@ TEST(iterator_constructor_default){
 }
 
 TEST(iterator_constructor_copy){
-
+    List<int> emptyList;
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    emptyList.push_back(3);
+    emptyList.push_back(4);
+    int j = 1;
+    List<int>::Iterator it = emptyList.begin();
+    List<int>::Iterator it2(it);
+    for (; it != emptyList.end(); ++it, ++it2, ++j) {
+        std::cout << "At item #" << j << ", get " << *it << " and " << *it2 << std::endl;
+        ASSERT_TRUE(it == it2);
+    }
 }
 
 TEST(iterator_constructor_overload){
-
+    List<int> emptyList;
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    emptyList.push_back(3);
+    emptyList.push_back(4);
+    int j = 1;
+    List<int>::Iterator it = emptyList.begin();
+    List<int>::Iterator it2 = it;
+    for (; it != emptyList.end(); ++it, ++it2, ++j) {
+        std::cout << "At item #" << j << ", get " << *it << " and " << *it2 << std::endl;
+        ASSERT_TRUE(it == it2);
+    }
 }
 
 TEST(iterator_increment_decrement_prefix){
-
+    List<int> emptyList;
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    emptyList.push_back(3);
+    emptyList.push_back(4);
+    List<int>::Iterator it = emptyList.begin();
+    List<int>::Iterator it2 = it;
+    it++;
+    it2++;
+    ASSERT_TRUE(*(it++) == *(it2--));
+    it--;
+    it2++;
+    ASSERT_FALSE(*(++it) == *(--it2));
+    it--;
+    it2++;
+    ASSERT_FALSE(*(it++) == *(--it2));
+    it--;
+    it2++;
+    ASSERT_FALSE(*(++it) == *(it2--));
 }
 
-TEST(iterator_increment_decrement_postfix){
+// TEST(iterator_begin_end){
 
-}
+// }
 
-TEST(iterator_dereference_copyall){
+// TEST(iterator_erase_insert){
 
-}
-
-TEST(iterator_begin_end){
-
-}
-
-TEST(iterator_erase_insert){
-
-}
-
-
-
+// }
 
 // TEST(default_iterator_constructor){
 //     List<int> emptyList;
