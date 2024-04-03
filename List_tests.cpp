@@ -8,6 +8,7 @@ using namespace std;
 //Empty execution
 TEST(testing_empty_default) {
     //Checking consecuitve executions 
+    cout << "testing empty default" << endl;
     List<int> emptyList;
     ASSERT_TRUE(emptyList.empty());
     ASSERT_TRUE(emptyList.empty());
@@ -32,13 +33,13 @@ TEST(testing_empty_default) {
 }
 
 //Copy constructor execution
+//passes
 TEST(testing_empty_copy) {
     //Checking consecuitve executions 
     List<int> base_maker;
     List<int> emptyList = base_maker;
     ASSERT_TRUE(emptyList.empty());
     ASSERT_TRUE(emptyList.empty());
-    std::cout << "Consecutive test of copy empty passed" << std::endl;
 
     ASSERT_TRUE(base_maker.empty());
     for (int i = 0; i < 5; ++i) {
@@ -47,15 +48,12 @@ TEST(testing_empty_copy) {
     List<int> emptyList2 = base_maker;
     ASSERT_FALSE(emptyList2.empty());
     ASSERT_FALSE(emptyList2.empty());
-    std::cout << "Test of copy empty pre and post filled passed" << std::endl;
 
     int j = 0;
     for (List<int>::Iterator it = emptyList2.begin(); it != emptyList2.end(); ++it, ++j) {
         std::cout << "At item #" << j << ", get " << *it << std::endl;
         ASSERT_EQUAL(*it, j);
     }
-
-    std::cout << "Test of prefilled list variable modifications passed" << std::endl;
 }
 
 //Testing size default made

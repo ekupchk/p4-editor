@@ -25,7 +25,15 @@ class List {
 
     //REQUIRES: list is empty
     //EFFECTS:  copies all nodes from other to this
-    void copy_all(const List<T> &other);
+    void copy_all(const List<T> &other){
+      if(other.first != nullptr){
+        Node* item_at_index = other.first;
+        while(item_at_index != nullptr){
+          push_back(item_at_index->datum);
+          item_at_index = item_at_index->next;
+        }
+      }
+    }
 
     Node *first;   // points to first Node in list, or nullptr if list is empty
     Node *last;    // points to last Node in list, or nullptr if list is empty
@@ -222,7 +230,6 @@ class List {
       //   first = nullptr;
       //   last = nullptr;
       // }
-      cout << "activated" << endl;
       while(first){
         pop_back();
       }
@@ -236,18 +243,21 @@ class List {
     List<T>() : ListSize(0), first(nullptr), last(nullptr){};
 
     //copy constructor?
-    // List<T>(List<T> &copy){
-    //   ListSize = 0;
-    //   for (List<T>::Iterator item_iterator = copy.begin(); item_iterator != copy.end(); ++item_iterator) {
+    List<T>(List<T> &copy){
+      ListSize = 0;
+      first = nullptr;
+      last = nullptr;
+      copy_all(rhs);
+    }
 
-    //   }
-    // }
-
-    // //overloaded assignment
-    // List<T> & operator=(const List<T> &rhs){
-    //   
-    //   return *this;
-    // }
+    //overloaded assignment
+    List<T> & operator=(const List<T> &rhs){
+      if(this != &rhs){
+        clear();
+        copy_all(rhs);
+      }
+      return *this;
+    }
 
     ~List<T>(){
       clear();
@@ -271,15 +281,13 @@ class List {
         // of the class must be able to copy, assign, and destroy Iterators.
         
         //copy constructor?
-        Iterator(Iterator &copy){
-          list_ptr = copy.list_ptr;
+        Iterator(const Iterator &copy){
           node_ptr = copy.node_ptr;
         }
 
         //overloaded assignment
         Iterator & operator=(const Iterator &rhs){
-          list_ptr = rhs.list_ptr;
-          node_ptr = rhs.node_ptr;
+          if(this != &rhs){node_ptr = rhs.node_ptr;};
           return *this;
         }
 
@@ -349,7 +357,7 @@ class List {
 
         Iterator operator++(int /*dummy*/) { // postfix -- (e.g. it--)
           Iterator copy = *this;
-          operator++();
+          copy->node_ptr = code->node_ptr->next;
           return copy;
         }
         // REQUIRES: Iterator is dereferenceable
@@ -361,13 +369,8 @@ class List {
           return &(operator*());
         }
 
-    bool operator==(Iterator rhs){
-      if(node_ptr == rhs.node_ptr){
-        cout << "true" << endl;
-        return true;
-      }
-      cout << "false" << endl;
-      return false;
+    bool operator==(const Iterator rhs) const{
+      return (node_ptr == rhs.node_ptr);
       
       /*
       if((initialized_via_default == true) || (rhs.initialized_via_default == true)){
@@ -387,16 +390,14 @@ class List {
       */
     }
 
-    bool operator!=(Iterator rhs){
-      bool return_value = !(operator==(rhs));
-      std::cout << "operator != returns " << return_value << std::endl;
-      return return_value;
+    bool operator!=(const Iterator rhs) const{
+      return !(operator==(rhs));
     }
     
 
-        T operator*(){
-          return node_ptr->datum;
-        }
+    T operator*(){
+      return node_ptr->datum;
+    }
 
       private:
         const List *list_ptr; //pointer to the List associated with this Iterator
@@ -420,12 +421,15 @@ class List {
           // // }
           // std::cout << "unfinished function Iterator(const List *lp, Node *np) activated" << std::endl;
         // }
+        void copy_all(const Iterator &rhs){
+          node_ptr = rhs.node_ptr;
+        }
     };//List::Iterator
     ////////////////////////////////////////
 
     // return an Iterator pointing to the first element
     Iterator begin() const{
-      return Iterator(first);
+      return Iterator(this, first);
     }
 
     // return an Iterator pointing to "past the end"
