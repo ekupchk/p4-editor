@@ -230,6 +230,9 @@ class List {
       //   first = nullptr;
       //   last = nullptr;
       // }
+
+      //DUH, this works. 
+      //made it too complex before
       while(first){
         pop_back();
       }
@@ -247,7 +250,8 @@ class List {
       ListSize = 0;
       first = nullptr;
       last = nullptr;
-      copy_all(rhs);
+
+      copy_all(copy);
     }
 
     //overloaded assignment
@@ -357,7 +361,7 @@ class List {
 
         Iterator operator++(int /*dummy*/) { // postfix -- (e.g. it--)
           Iterator copy = *this;
-          copy->node_ptr = code->node_ptr->next;
+          node_ptr = node_ptr->next;
           return copy;
         }
         // REQUIRES: Iterator is dereferenceable
@@ -369,35 +373,35 @@ class List {
           return &(operator*());
         }
 
-    bool operator==(const Iterator rhs) const{
-      return (node_ptr == rhs.node_ptr);
-      
-      /*
-      if((initialized_via_default == true) || (rhs.initialized_via_default == true)){
-        std::cout << "operator == returns " << (initialized_via_default == rhs.initialized_via_default) << std::endl;
-        return (initialized_via_default == rhs.initialized_via_default);
-      }
+        bool operator==(const Iterator rhs) const{
+          return (node_ptr == rhs.node_ptr);
+          
+          /*
+          if((initialized_via_default == true) || (rhs.initialized_via_default == true)){
+            std::cout << "operator == returns " << (initialized_via_default == rhs.initialized_via_default) << std::endl;
+            return (initialized_via_default == rhs.initialized_via_default);
+          }
 
-      if(list_ptr == rhs.list_ptr){
-        std::cout << "operator == returns " << (node_ptr == rhs.node_ptr) << std::endl;
-        return (node_ptr == rhs.node_ptr);
-      }
+          if(list_ptr == rhs.list_ptr){
+            std::cout << "operator == returns " << (node_ptr == rhs.node_ptr) << std::endl;
+            return (node_ptr == rhs.node_ptr);
+          }
 
-      //expects undefined behavior if you compare
-      //different lists, so show this way
-      std::cout << "operator == returns false by default" << std::endl;
-      return false;
-      */
-    }
+          //expects undefined behavior if you compare
+          //different lists, so show this way
+          std::cout << "operator == returns false by default" << std::endl;
+          return false;
+          */
+        }
 
-    bool operator!=(const Iterator rhs) const{
-      return !(operator==(rhs));
-    }
-    
+        bool operator!=(const Iterator rhs) const{
+          return !(operator==(rhs));
+        }
+        
 
-    T operator*(){
-      return node_ptr->datum;
-    }
+        T operator*(){
+          return node_ptr->datum;
+        }
 
       private:
         const List *list_ptr; //pointer to the List associated with this Iterator
@@ -412,7 +416,7 @@ class List {
         Iterator(Node *np) : node_ptr(np){}
 
         // construct an Iterator at a specific position in the given List
-        Iterator(const List *lp, Node *np): node_ptr(np), list_ptr(lp){}
+        Iterator(const List *lp, Node *np): list_ptr(lp), node_ptr(np){}
           // // int counter = 0;
           // // Node* current_node = lp->begin;
           // // while((counter < ListSize) && (current_node != np)){
@@ -466,11 +470,27 @@ class List {
     //EFFECTS: Inserts datum before the element at the specified position.
     //         Returns an iterator to the the newly inserted element.
     Iterator insert(Iterator i, const T &datum){
-      // std::cout << "unfinished function Iterator insert(Iterator i, const T &datum){ activated" << std::endl;
-      Node *new_data = *Node(i);
+      // std::cout << "unfinished function Iterator insert(Iterator i, const T &datum){ activated" << std::endl
       Iterator new_iterator;
-      return new_iterator;
+      Node *new_data = new Node();
+      if(i->node_ptr == first){
+        (i->list_ptr).push_front(datum);
+        new_iterator = new_iterator(this, first);
+        delete new_data;
+      }else if(i.node_ptr == last){
+        (i->list_ptr).push_back(datum);
+        new_iterator = new_iterator(this, first);
+        delete new_data;
+      }else{
+        new_data->datum = datum;
+        new_data->prev = (i.node_ptr)->prev;
+        new_data->next = (i->node_ptr);
+        ((i.node_ptr).prev)->next = new_data;
+        (i.node_ptr)->prev = new_data;
+        new_iterator = new_iterator(this, new_data);
+      }
       
+      return new_iterator;
     }
 };//List
 

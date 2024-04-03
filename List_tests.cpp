@@ -32,7 +32,6 @@ TEST(testing_empty_default) {
     std::cout << "Test of prefilled list variable modifications passed" << std::endl;
 }
 
-//Copy constructor execution
 //passes
 TEST(testing_empty_copy) {
     //Checking consecuitve executions 
@@ -86,10 +85,10 @@ TEST(testing_size) {
     //Independent of the method used to subtract elements 
 }
 
-
+//passes
 TEST(testing_front_back){
     List<int> emptyList;
-
+    //Can have duplicates actually!
     //Check one member list independent of method added
     //Check multiple times to ensure no change
     emptyList.push_front(10);
@@ -108,8 +107,8 @@ TEST(testing_front_back){
     emptyList.push_back(7);
     ASSERT_EQUAL(emptyList.front(), 7);
     ASSERT_EQUAL(emptyList.front(), 7);
-    ASSERT_EQUAL(emptyList.back(), 10);
-    ASSERT_EQUAL(emptyList.back(), 10);
+    ASSERT_EQUAL(emptyList.back(), 7);
+    ASSERT_EQUAL(emptyList.back(), 7);
 
     //Added to end behavior works
     emptyList.push_back(3);
@@ -118,27 +117,20 @@ TEST(testing_front_back){
     ASSERT_EQUAL(emptyList.back(), 3);
     ASSERT_EQUAL(emptyList.back(), 3);
 
-    //duplicate case so no change expected
-    emptyList.push_front(3);
-    ASSERT_EQUAL(emptyList.front(), 7);
-    ASSERT_EQUAL(emptyList.front(), 7);
-    ASSERT_EQUAL(emptyList.back(), 3);
-    ASSERT_EQUAL(emptyList.back(), 3);
-
-    //7 10 3 is list
+    //7 10 7 3 is list
     emptyList.pop_back();
     ASSERT_EQUAL(emptyList.front(), 7);
     ASSERT_EQUAL(emptyList.front(), 7);
-    ASSERT_EQUAL(emptyList.back(), 10);
-    ASSERT_EQUAL(emptyList.back(), 10);
+    ASSERT_EQUAL(emptyList.back(), 7);
+    ASSERT_EQUAL(emptyList.back(), 7);
 
     emptyList.pop_front();
     ASSERT_EQUAL(emptyList.front(), 10);
     ASSERT_EQUAL(emptyList.front(), 10);
-    ASSERT_EQUAL(emptyList.back(), 10);
-    ASSERT_EQUAL(emptyList.back(), 10);
+    ASSERT_EQUAL(emptyList.back(), 7);
+    ASSERT_EQUAL(emptyList.back(), 7);
 }
-
+//passes
 TEST(testing_push_front_back){
     List<int> emptyList;
 
@@ -158,7 +150,7 @@ TEST(testing_push_front_back){
     ASSERT_EQUAL(emptyList.back(), 4);
     ASSERT_EQUAL(emptyList.size(),4);
 }
-
+//passes
 TEST(testing_pop_front_back){
     List<int> emptyList;
     emptyList.push_back(1);
@@ -201,13 +193,13 @@ TEST(clear_function){
     ASSERT_TRUE(emptyList.empty());
 }
 
-
+//passes
 TEST(default_list_constructor){
     List<int> emptyList;
     ASSERT_TRUE(emptyList.empty());
     ASSERT_EQUAL(emptyList.size(),0);
 }
-
+//passes
 TEST(copy_list_constructor){
     List<int> emptyList;
     emptyList.push_back(1);
@@ -226,7 +218,7 @@ TEST(copy_list_constructor){
     }
     cout << "passes the data comparison" << endl;
 }
-
+//passes
 TEST(overload_list_constructor){
     List<int> emptyList;
     emptyList.push_back(1);
@@ -242,10 +234,105 @@ TEST(overload_list_constructor){
     }
 }
 
+TEST(iterator_equals_not_equals){
+    //Test for two iterators pointing to the same point in the same list.
+    List<int> emptyList;
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    emptyList.push_back(3);
+    emptyList.push_back(4);
+ 
+    List<int>::Iterator offset_iterator = emptyList.begin();
+    offset_iterator++;
+    List<int>::Iterator base_iterator = emptyList.begin();
+    List<int>::Iterator base_two_iterator = emptyList.begin();
+    for (; offset_iterator != emptyList.end(); ++base_iterator, ++base_two_iterator, ++offset_iterator) {
+        std::cout << *base_iterator << " and " << *base_two_iterator << std::endl;
+        ASSERT_TRUE(base_iterator == base_two_iterator);
+        ASSERT_TRUE(base_iterator == base_two_iterator);
+        ASSERT_TRUE(base_iterator != offset_iterator);
+        ASSERT_FALSE(base_iterator == offset_iterator);
+        ASSERT_FALSE(base_iterator != base_two_iterator);
+        ASSERT_FALSE(base_iterator != base_two_iterator);
+    }
+    ++base_iterator;
+    ++base_two_iterator;
+    ASSERT_TRUE(base_iterator == base_two_iterator);
+    ASSERT_TRUE(base_iterator == base_two_iterator);
+    ASSERT_FALSE(base_iterator != base_two_iterator);
+    ASSERT_FALSE(base_iterator != base_two_iterator);
+    
+    //now different lists, should not be the same
+    //ACTUALLY, WANT UNDER BEHAVIOR SINCE COMPARING
+    //DIFFERENT LISTS!!!!!!  
+    // List<int> copiedList = emptyList;
+    // base_two_iterator = copiedList.begin();
+    // offset_iterator = copiedList.begin();
+    // offset_iterator++;
+    // base_iterator = emptyList.begin();
+    // for (; offset_iterator != copiedList.end(); ++base_iterator, ++base_two_iterator, ++offset_iterator) {
+    //     std::cout << *base_iterator << " and " << *base_two_iterator << std::endl;
+    //     if(base_iterator == emptyList.begin()){
+    //         --offset_iterator;
+    //     }
+    //     std::cout << *base_iterator << " and " << *base_two_iterator << std::endl;
+    //     ASSERT_TRUE(base_iterator != base_two_iterator);
+    //     ASSERT_TRUE(base_iterator != base_two_iterator);
+    //     ASSERT_TRUE(base_iterator != offset_iterator);
+    //     ASSERT_FALSE(base_iterator == offset_iterator);
+    //     ASSERT_FALSE(base_iterator == base_two_iterator);
+    //     ASSERT_FALSE(base_iterator == base_two_iterator);
+    // }
+    // ++base_iterator;
+    // ++base_two_iterator;
+    // ASSERT_FALSE(base_iterator != base_two_iterator);
+    // ASSERT_FALSE(base_iterator != base_two_iterator);
+    // ASSERT_TRUE(base_iterator == base_two_iterator);
+    // ASSERT_TRUE(base_iterator == base_two_iterator);
+}
 
+TEST(iterator_constructor_default){
+    List<int> emptyList;
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    emptyList.push_back(3);
+    emptyList.push_back(4);
+    List<int> copiedList = emptyList;
+    ASSERT_EQUAL(copiedList.size(),4);
+    int j = 1;
+    for (List<int>::Iterator it = copiedList.begin(); it != copiedList.end(); ++it, ++j) {
+        std::cout << "At item #" << j << ", get " << *it << std::endl;
+        ASSERT_EQUAL(*it, j);
+    }
+}
 
+TEST(iterator_constructor_copy){
 
+}
 
+TEST(iterator_constructor_overload){
+
+}
+
+TEST(iterator_increment_decrement_prefix){
+
+}
+
+TEST(iterator_increment_decrement_postfix){
+
+}
+
+TEST(iterator_dereference_copyall){
+
+}
+
+TEST(iterator_begin_end){
+
+}
+
+TEST(iterator_erase_insert){
+
+}
 
 
 
