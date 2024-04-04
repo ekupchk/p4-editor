@@ -297,7 +297,7 @@ class List {
         // NOTE: T must be a class type to use the syntax it->. If T has a
         //       member variable f, then it->f accesses f on the
         //       underlying T element.
-        T* operator->() const {
+        T* operator->() const{
           return &(operator*());
         }
 
@@ -346,25 +346,25 @@ class List {
     //         Returns An iterator pointing to the element that followed the
     //         element erased by the function call
     Iterator erase(Iterator i){
-      List<int>::Iterator *traverse = i.list_ptr.begin();
-      for(; traverse != i.list_ptr.end(); traverse++){
-        if(traverse->node_ptr == i->node_ptr){
-          if(traverse->node_ptr->next == nullptr){
+      List<int>::Iterator traverse = begin();
+      for(; traverse != end(); traverse++){
+        if(traverse.node_ptr == i.node_ptr){
+          if(traverse.node_ptr->next == nullptr){
             traverse--;
-            traverse->node_ptr->next = nullptr;
+            traverse.node_ptr->next = nullptr;
             i = traverse;
           }
           else{
             traverse--;
-            traverse->node_ptr->next = i->node_ptr->next;
+            traverse.node_ptr->next = i.node_ptr->next;
             traverse++;
-            traverse->node_ptr->prev =i->node_ptr->prev;
+            traverse.node_ptr->prev = i.node_ptr->prev;
             i = traverse;
           }
           break;
         }
-        return i;
       }
+      return i;
     }
     //REQUIRES: i is a valid iterator associated with this list
     //EFFECTS: Inserts datum before the element at the specified position.
@@ -372,21 +372,21 @@ class List {
     Iterator insert(Iterator i, const T &datum){
       Iterator new_iterator;
       Node *new_data = new Node();
-      if(i->node_ptr == first){
-        (i->list_ptr).push_front(datum);
-        new_iterator = new_iterator(this, first);
+      if(i.node_ptr == first){
+        push_front(datum);
+        new_iterator = begin();
         delete new_data;
       }else if(i.node_ptr == last){
-        (i->list_ptr).push_back(datum);
-        new_iterator = new_iterator(this, first);
+        push_back(datum);
+        new_iterator = begin();
         delete new_data;
       }else{
         new_data->datum = datum;
         new_data->prev = (i.node_ptr)->prev;
-        new_data->next = (i->node_ptr);
+        new_data->next = i->node_ptr;
         ((i.node_ptr).prev)->next = new_data;
         (i.node_ptr)->prev = new_data;
-        new_iterator = new_iterator(this, new_data);
+        new_iterator = Iterator(this, new_data);
       }
       
       return new_iterator;
