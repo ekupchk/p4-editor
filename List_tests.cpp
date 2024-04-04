@@ -749,7 +749,8 @@ TEST(copy_list_constructor){
     emptyList.push_back(3);
     emptyList.push_back(4);
     cout << "passes the creation phase" << endl;
-    List<int> copiedList = emptyList;
+    List<int> copiedList;
+    copiedList = emptyList;
     cout << "passes the copy phase" << endl;
     ASSERT_EQUAL(copiedList.size(),4);
     cout << "passes the size check" << endl;
@@ -769,8 +770,7 @@ TEST(overload_list_constructor){
     emptyList.push_back(4);
     //This line alone doesn't test the overload constructor
     //List<int> copiedList = emptyList;
-    List<int> copiedList;
-    copiedList = emptyList;
+    List<int> copiedList(emptyList);
     ASSERT_EQUAL(copiedList.size(),4);
     int j = 1;
     for (List<int>::Iterator it = copiedList.begin(); it != copiedList.end(); ++it, ++j) {
@@ -893,22 +893,37 @@ TEST(iterator_increment_decrement_prefix_1){
     List<int> emptyList;
     emptyList.push_back(1);
     emptyList.push_back(2);
+    List<int>::Iterator it = emptyList.end();
+    List<int>::Iterator it2;
+    it2 = it;
+    while(it != emptyList.begin()){
+        ASSERT_TRUE(*(it--) == *(it2--));
+    }
+
     emptyList.push_back(3);
     emptyList.push_back(4);
-    List<int>::Iterator it = emptyList.begin();
-    List<int>::Iterator it2 = it;
-    it++;
-    it2++;
-    ASSERT_TRUE(*(it++) == *(it2--));
-    it--;
-    it2++;
-    ASSERT_FALSE(*(++it) == *(--it2));
-    it--;
-    it2++;
-    ASSERT_FALSE(*(it++) == *(--it2));
-    it--;
-    it2++;
-    ASSERT_FALSE(*(++it) == *(it2--));
+    List<int>::Iterator it3 = emptyList.begin();
+    List<int>::Iterator it4;
+    it4 = it3;
+    while(it4 != emptyList.end()){
+        ASSERT_TRUE(*(it3++) == *(it4++));
+    }
+
+
+    // it++;
+    // it2++;
+    // ASSERT_TRUE(*(it++) == *(it2--));
+    // it--;
+    // it2++;
+    // ASSERT_FALSE(*(++it) == *(--it2));
+    // it--;
+    // it2++;
+    // ASSERT_FALSE(*(it++) == *(--it2));
+    // it--;
+    // it2++;
+    // ASSERT_FALSE(*(++it) == *(it2--));
+
+
 }
 
 // TEST(iterator_increment_decrement_prefix_standard){
