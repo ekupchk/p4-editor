@@ -487,6 +487,16 @@ TEST(iterator_removals_inserts){
 
 }
 
+/*Hints for testing
+List::operator= (Assignement Operator) Bug #1 
+- Your tests fail to catch a bug in this function. 
+Double check that you have tests for the assignment 
+operator specifically, e.g. not something like List 
+list2 = list; which uses the copy constructor. Assignment 
+would require a separate line like list2 = list; after 
+list2 has already been defined.
+*/
+
 
 
 TEST_MAIN()
