@@ -218,7 +218,7 @@ class List {
         Iterator & operator=(const Iterator &rhs){
           if(this != &rhs){
             node_ptr = rhs.node_ptr;
-            //list_ptr = copy.list_ptr;
+            list_ptr = rhs.list_ptr;
           }
           return *this;
         }
@@ -347,8 +347,10 @@ class List {
     //         element erased by the function call
     Iterator erase(Iterator i){
       List<int>::Iterator traverse = begin();
+      Node* node_to_delete = nullptr;
       for(; traverse != end(); traverse++){
         if(traverse.node_ptr == i.node_ptr){
+          node_to_delete = traverse.node_ptr;
           if(traverse.node_ptr->next == nullptr){
             traverse--;
             traverse.node_ptr->next = nullptr;
@@ -364,6 +366,8 @@ class List {
           break;
         }
       }
+      
+      if(node_to_delete){ delete node_to_delete;}
       return i;
     }
     //REQUIRES: i is a valid iterator associated with this list
