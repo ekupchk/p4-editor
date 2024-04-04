@@ -433,11 +433,7 @@ TEST(iterator_erase_insert){
     
     
     //assert works properly for all the different types
-    //of iterators...
-
-
-
-    
+    //of iterators...   
 }
 
 // TEST(default_iterator_constructor){
