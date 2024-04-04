@@ -216,7 +216,10 @@ class List {
 
         //overloaded assignment
         Iterator & operator=(const Iterator &rhs){
-          if(this != &rhs){node_ptr = rhs.node_ptr;};
+          if(this != &rhs){
+            node_ptr = rhs.node_ptr;
+            //list_ptr = copy.list_ptr;
+          }
           return *this;
         }
 
@@ -254,8 +257,8 @@ class List {
         // EFFECTS:  moves this Iterator to point to the previous element
         //           and returns a reference to this Iterator
         Iterator& operator--() { // prefix -- (e.g. --it)
-          // assert(list_ptr);
-          // assert(*this != list_ptr->begin());
+          assert(list_ptr);
+          assert(*this != list_ptr->begin());
           if (node_ptr) {
             node_ptr = node_ptr->prev;
           } else {
@@ -275,7 +278,7 @@ class List {
         }
 
         Iterator operator++(){
-          // assert(list_ptr);
+          assert(list_ptr);
           if (node_ptr) {
             node_ptr = node_ptr->next;
           } else {

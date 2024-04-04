@@ -336,7 +336,8 @@ TEST(iterator_constructor_overload){
     }
 }
 
-TEST(iterator_increment_decrement_prefix){
+//not all tests
+TEST(iterator_increment_decrement_prefix_1){
     List<int> emptyList;
     emptyList.push_back(1);
     emptyList.push_back(2);
@@ -358,13 +359,86 @@ TEST(iterator_increment_decrement_prefix){
     ASSERT_FALSE(*(++it) == *(it2--));
 }
 
-// TEST(iterator_begin_end){
+TEST(iterator_increment_decrement_prefix_standard){
+    List<int> emptyList;
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    emptyList.push_back(3);
+    emptyList.push_back(4);
+    List<int>::Iterator it = emptyList.end();
+    int j = 4;
+    for (; it != emptyList.begin(); --it, --j) {
+        std::cout << "At item #" << j << ", get " << *it << std::endl;
+        ASSERT_TRUE(*it == j);
+    }
 
-// }
+    j = 1;
+    it = emptyList.begin();
+    for (; it != emptyList.end(); ++it, ++j) {
+        std::cout << "At item #" << j << ", get " << *it << std::endl;
+        ASSERT_TRUE(*it == j);
+    }
+}
 
-// TEST(iterator_erase_insert){
+TEST(iterator_increment_decrement_prefix_one_elem){
+    List<int> emptyList;
+    emptyList.push_back(1);
+    List<int>::Iterator it = emptyList.end();
+    int j = 1;
+    for (; it != emptyList.begin(); --it, --j) {
+        std::cout << "At item #" << j << ", get " << *it << std::endl;
+        ASSERT_TRUE(*it == j);
+    }
 
-// }
+    j = 1;
+    it = emptyList.begin();
+    for (; it != emptyList.end(); ++it, ++j) {
+        std::cout << "At item #" << j << ", get " << *it << std::endl;
+        ASSERT_TRUE(*it == j);
+    }
+}
+
+TEST(iterator_increment_decrement_prefix_two_elem){
+    List<int> emptyList;
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    List<int>::Iterator it = emptyList.end();
+    int j = 2;
+    for (; it != emptyList.begin(); --it, --j) {
+        std::cout << "At item #" << j << ", get " << *it << std::endl;
+        ASSERT_TRUE(*it == j);
+    }
+
+    j = 1;
+    it = emptyList.begin();
+    for (; it != emptyList.end(); ++it, ++j) {
+        std::cout << "At item #" << j << ", get " << *it << std::endl;
+        ASSERT_TRUE(*it == j);
+    }
+}
+
+TEST(iterator_erase_insert){
+    List<int> emptyList;
+    emptyList.push_back(1);
+    emptyList.push_back(2);
+    emptyList.push_back(3);
+    emptyList.push_back(4);
+    List<int>::Iterator it = emptyList.end();
+    List<int>::Iterator it2(it);
+    List<int>::Iterator it3;
+    emptyList.clear();
+    ASSERT_TRUE(it == it2);
+    ASSERT_FALSE(it == it3);
+    ASSERT_FALSE(it2 == it3);
+    
+    
+    //assert works properly for all the different types
+    //of iterators...
+
+
+
+    
+}
 
 // TEST(default_iterator_constructor){
 //     List<int> emptyList;
@@ -376,5 +450,9 @@ TEST(iterator_increment_decrement_prefix){
 //     emptyList.push_back(4);
 
 // }
+
+//Test reverse iteration
+//Test prefix and postfix operators
+//
 
 TEST_MAIN()
